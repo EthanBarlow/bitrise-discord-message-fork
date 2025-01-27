@@ -121,9 +121,20 @@ axios
     return 0;
   })
   .catch(error => {
-    console.error(
+    /* console.error(
       'ERROR: Failed to send the Discord message',
       error.response.data
     );
-    return 1;
+    return 1; */
+    if (error.response) {
+      // Server responded with a status code outside 2xx range
+      console.error('Error response data:', error.response.data);
+      console.error('Error status code:', error.response.status);
+    } else if (error.request) {
+      // Request was made, but no response received
+      console.error('No response received:', error.request);
+    } else {
+      // Something happened while setting up the request
+      console.error('Error setting up request:', error.message);
+    }
   });
